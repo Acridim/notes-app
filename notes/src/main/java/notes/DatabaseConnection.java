@@ -21,7 +21,8 @@ public class DatabaseConnection {
     }
     public void Open(){
         try{
-            con = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/m7xp61Lk1E", "m7xp61Lk1E", "d37KIeRBVX");
+            con = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7329161", "sql7329161", "dNeDDGsRpE");
+            //("jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7328719","sql7328719","Xd55U7zAXZ")
         }
         catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Cant connect to database, please try again");
