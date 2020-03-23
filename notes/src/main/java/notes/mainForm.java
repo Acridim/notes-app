@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.logging.Level;
@@ -77,6 +79,11 @@ public class mainForm extends javax.swing.JFrame {
 
         jButton2.setText("Delete Note");
         jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Add Note");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -262,6 +269,32 @@ public class mainForm extends javax.swing.JFrame {
         new noteForm(u_id).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        dbCon.Open();
+        Statement statement;
+        
+        try {           
+            
+            statement = dbCon.con.createStatement();
+            ResultSet result = statement.executeQuery("SELECT DeleteNote('" + jList1.getSelectedValue() + "'," + u_id + ")");
+                
+        while(result.next())
+        {
+            this.setVisible(false);
+            System.out.println(result.getInt(1));
+        }
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dbCon.Close();
+        
+        JOptionPane.showMessageDialog(null, "Succesfully deleted note");
+        new mainForm(u_id).setVisible(true);
+        this.dispose();
+        repaint();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void GetData(String note) {
         if(!note.equals(""))
