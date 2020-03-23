@@ -76,6 +76,11 @@ public class mainForm extends javax.swing.JFrame {
 
         jButton1.setText("Edit Note");
         jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Delete Note");
         jButton2.setEnabled(false);
@@ -295,6 +300,11 @@ public class mainForm extends javax.swing.JFrame {
         this.dispose();
         repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new noteForm(u_id, (int)savedList.get(jList1.getSelectedValue())).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void GetData(String note) {
         if(!note.equals(""))

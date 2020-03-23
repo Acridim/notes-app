@@ -5,6 +5,7 @@
  */
 package notes;
 
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,12 +23,22 @@ public class noteForm extends javax.swing.JFrame {
 
     private DatabaseConnection dbCon = new DatabaseConnection();
     int u_id;
+    int n_id;
+    Boolean editing = false;
     /**
      * Creates new form noteForm
      */
     public noteForm(int id) {
         initComponents();
         u_id = id;
+    }
+    
+    public noteForm(int id, int note_id) {
+        initComponents();
+        u_id = id;
+        n_id = note_id;
+        FillForEdit(note_id);
+        editing = true;
     }
 
     /**
@@ -123,38 +134,107 @@ public class noteForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        dbCon.Open();
-        Statement statement;
-
-        String name = jTextField1.getText();
-        String text = jTextArea1.getText();
         
-        String color = jComboBox1.getSelectedItem().toString();
-                
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
-        LocalDateTime now = LocalDateTime.now();  
-        String date = dtf.format(now);
-        
-        try {           
-            
-            statement = dbCon.con.createStatement();
-            ResultSet result = statement.executeQuery("SELECT CreateNote('" + name + "','"
-                    + text + "','" + color + "','" + date +"'," + u_id + ");");
-                
-           
-        while(result.next())
+        if(!editing)
         {
-            this.setVisible(false);
-            System.out.println(result.getInt(1));
+            dbCon.Open();
+            Statement statement;
+
+            String name = jTextField1.getText();
+            String text = jTextArea1.getText();
+
+            String color = jComboBox1.getSelectedItem().toString();
+
+            if(color.equals("Very Important"))
+            {
+                color = "Red";
+            }
+            else if(color.equals("Important"))
+            {
+                color = "Green";
+            }
+            else
+            {
+                color = "Blue";
+            }
+            
+            
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+            LocalDateTime now = LocalDateTime.now();  
+            String date = dtf.format(now);
+
+            try {           
+
+                statement = dbCon.con.createStatement();
+                ResultSet result = statement.executeQuery("SELECT CreateNote('" + name + "','"
+                        + text + "','" + color + "','" + date +"'," + u_id + ");");
+
+
+            while(result.next())
+            {
+                this.setVisible(false);
+                System.out.println(result.getInt(1));
+            }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dbCon.Close();
+
+            new mainForm(u_id).setVisible(true);
+            this.dispose();
         }
+        else
+        {
+            dbCon.Open();
+            Statement statement;
+
+            String name = jTextField1.getText();
+            String text = jTextArea1.getText();
+
+            String color = jComboBox1.getSelectedItem().toString();
+            
+            if(color.equals("Very Important"))
+            {
+                color = "Red";
+            }
+            else if(color.equals("Important"))
+            {
+                color = "Green";
+            }
+            else
+            {
+                color = "Blue";
+            }
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+            LocalDateTime now = LocalDateTime.now();  
+            String date = dtf.format(now);
+
+            try {           
+
+                statement = dbCon.con.createStatement();
+                ResultSet result = statement.executeQuery("SELECT EditNote('" + name + "','"
+                        + text + "','" + color + "','" + date +"'," + n_id + ");");
                 
-        } catch (SQLException ex) {
-            Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, ex);
+                
+                //(xname VARCHAR(100), xtext TEXT, xcolor VARCHAR(20), xdate TIMESTAMP, xid INTEGER)
+
+
+            while(result.next())
+            {
+                this.setVisible(false);
+                System.out.println(result.getInt(1));
+            }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dbCon.Close();
+
+            new mainForm(u_id).setVisible(true);
+            this.dispose();
         }
-        dbCon.Close();
-        
-        new mainForm(u_id).setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -162,6 +242,43 @@ public class noteForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void FillForEdit(int note_id)
+    {
+        dbCon.Open();
+        Statement statement;
+        
+        try {           
+            
+            statement = dbCon.con.createStatement();
+            ResultSet result = statement.executeQuery("SELECT n.name, n.text, n.color, n.date FROM Notes n WHERE id = " + note_id);
+                
+           
+        while(result.next())
+        {
+            this.setVisible(false);
+            jTextField1.setText(result.getString(1));
+            jTextArea1.setText(result.getString(2));
+            
+            if(result.getString(3).equals("Red"))
+            {
+                jComboBox1.setSelectedItem("Very Important");
+            }
+            else if(result.getString(3).equals("Green"))
+            {
+                jComboBox1.setSelectedItem("Important");
+            }
+            else
+            {
+                jComboBox1.setSelectedItem("Not Important");
+            }
+        }
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dbCon.Close();
+    }
+    
     /**
      * @param args the command line arguments
      */
