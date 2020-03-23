@@ -108,7 +108,12 @@ public class mainForm extends javax.swing.JFrame {
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Length", "Importance", "Date" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Date", "Length", "Importance" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Order by:");
 
@@ -189,37 +194,37 @@ public class mainForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(183, 183, 183)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jSeparator1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -305,6 +310,10 @@ public class mainForm extends javax.swing.JFrame {
         new noteForm(u_id, (int)savedList.get(jList1.getSelectedValue())).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        FillNotes();
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void GetData(String note) {
         if(!note.equals(""))
@@ -395,10 +404,11 @@ public class mainForm extends javax.swing.JFrame {
         }
     }
     
-    private void FillNotes() {
+    private void FillNotes(){
         jList1.setListData(new String[0]);
         
         String display = jComboBox1.getSelectedItem().toString();
+        String orderBy = jComboBox2.getSelectedItem().toString();
         
         DefaultListModel listModel;
 
@@ -413,19 +423,54 @@ public class mainForm extends javax.swing.JFrame {
             if(display.equals("All Notes"))
             {
                 statement = dbCon.con.createStatement();
-                result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + ";"); 
+                
+                if(orderBy.equals("Importance"))
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " ORDER BY n.color DESC;");
+                }
+                else if (orderBy.equals("Length"))
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " ORDER BY CHAR_LENGTH(n.text) DESC;");
+                }
+                else
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " ORDER BY n.date DESC;");
+                }
             }
             
             if(display.equals("Personal Notes"))
             {
                 statement = dbCon.con.createStatement();
-                result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " AND admin = 1;"); 
+                if(orderBy.equals("Importance"))
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " AND admin = 1 ORDER BY n.color DESC;"); 
+                }
+                else if (orderBy.equals("Length"))
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " AND admin = 1 ORDER BY CHAR_LENGTH(n.text) DESC;"); 
+                }
+                else
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " AND admin = 1 ORDER BY n.date DESC;"); 
+                }
+                
             }
             
             if(display.equals("Shared Notes"))
             {
                 statement = dbCon.con.createStatement();
-                result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " AND admin = 0;"); 
+                if(orderBy.equals("Importance"))
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " AND admin = 0 ORDER BY n.color ASC;"); 
+                }
+                else if (orderBy.equals("Length"))
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " AND admin = 0 ORDER BY CHAR_LENGTH(n.text) DESC;"); 
+                }
+                else
+                {
+                    result = statement.executeQuery("SELECT n.name,n.id FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE nu.user_id = " + u_id + " AND admin = 0 ORDER BY n.date DESC;"); 
+                }
             }
 
             while(result.next())
