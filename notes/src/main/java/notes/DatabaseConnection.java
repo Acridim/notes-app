@@ -5,22 +5,36 @@
  */
 package notes;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author lovro
  */
 public class DatabaseConnection {
-    private Connection con;
+    public Connection con;
     
     public DatabaseConnection(){
         
     }
     public void Open(){
-    try{
-        con = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/m7xp61Lk1E", "m7xp61Lk1E", "nkeQ5jwfMn");
+        try{
+            con = DriverManager.getConnection("jdbc:mysql://remotemysql.com:3306/m7xp61Lk1E", "m7xp61Lk1E", "d37KIeRBVX");
+        }
+        catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Cant connect to database, please try again");
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    catch(Exception ex){
-    }
+    
+    public void Close(){
+        try {
+            con.close();
+        }   
+        catch (SQLException ex) {
+            
+        }
     }
 }
