@@ -7,6 +7,7 @@ package notes;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -159,18 +160,27 @@ public class registerForm extends javax.swing.JFrame {
             
             dbCon.Open();
             Statement statement;
+            Statement statement1;
+            int id;
 
             try {
                 statement = dbCon.con.createStatement();
                 statement.executeUpdate("INSERT INTO Users(username, email, password) VALUES ('" + username + "', '" + email + "', '" + sha1Password + "');");
+                
+                statement1 = dbCon.con.createStatement();
+                ResultSet result = statement1.executeQuery("SELECT id FROM Users WHERE (username = '" + username + "' AND password = '" + sha1Password + "');");
+                
+                while(result.next())
+                {
+                    this.setVisible(false);
+                    new mainForm(result.getInt(1)).setVisible(true);
+                    return;
+                }
+                
             } catch (SQLException ex) {
                 Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
             dbCon.Close();
-            
-            this.setVisible(false);
-            new mainForm().setVisible(true); // Main Form to show after the Login Form..
         }
         else
         {
