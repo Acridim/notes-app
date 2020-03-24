@@ -37,6 +37,7 @@ public class mainForm extends javax.swing.JFrame {
         jPanel1.setVisible(false);
         FillNotes();
         GetUsername();
+        jButton4.setVisible(false);
         //jLabel1.setText(Integer.toString(u_id));
     }
 
@@ -64,6 +65,7 @@ public class mainForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -130,6 +132,13 @@ public class mainForm extends javax.swing.JFrame {
 
         jLabel10.setText("jLabel10");
 
+        jButton4.setText("Share");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,6 +158,10 @@ public class mainForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)))
                 .addGap(0, 34, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jButton4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +177,8 @@ public class mainForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4))
         );
 
         jLabel7.setText("Currently logged in as:");
@@ -287,7 +301,7 @@ public class mainForm extends javax.swing.JFrame {
         try {           
             
             statement = dbCon.con.createStatement();
-            ResultSet result = statement.executeQuery("SELECT DeleteNote('" + jList1.getSelectedValue() + "'," + u_id + ")");
+            ResultSet result = statement.executeQuery("SELECT DeleteNote(" + (int)savedList.get(jList1.getSelectedValue()) + ")");
                 
         while(result.next())
         {
@@ -314,6 +328,11 @@ public class mainForm extends javax.swing.JFrame {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         FillNotes();
     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        new shareForm(u_id, (int)savedList.get(jList1.getSelectedValue())).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void GetData(String note) {
         if(!note.equals(""))
@@ -359,6 +378,7 @@ public class mainForm extends javax.swing.JFrame {
                         System.out.println("logic IS WHERE");
                         jButton2.setEnabled(true);
                         jButton1.setEnabled(true);
+                        jButton4.setVisible(true);
                     }
                     else
                     {
@@ -378,7 +398,13 @@ public class mainForm extends javax.swing.JFrame {
                 dbCon.Close();
 
             } catch (SQLException ex) {
-                    Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(loginForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if(!jLabel8.getText().equals(jLabel4.getText()))
+            {
+                jButton2.setEnabled(false);
+                jButton4.setVisible(false);
             }
         }
     }
@@ -527,6 +553,7 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
