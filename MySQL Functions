@@ -1,0 +1,41 @@
+DELIMITER  $$
+
+CREATE FUNCTION CreateNote(xname VARCHAR(100), xtext TEXT, xcolor VARCHAR(20), xdate TIMESTAMP, xid INTEGER) RETURNS INT
+BEGIN
+
+INSERT INTO Notes(name, text, color, date) VALUES (xname, xtext, xcolor, xdate);
+INSERT INTO Notes_Users(note_id, user_id, admin, editable) VALUES ((SELECT id FROM Notes WHERE name = xname), xid, 1, 1);
+RETURN 1;
+
+END
+
+$$ DELIMITER ;
+
+
+DELIMITER  $$
+
+CREATE FUNCTION DeleteNote(xname VARCHAR(100), xid INTEGER) RETURNS INT
+BEGIN
+
+DELETE n, nu FROM Notes n INNER JOIN Notes_Users nu ON n.id = nu.note_id WHERE n.name = xname AND nu.user_id = xid;
+RETURN 1;
+
+END
+
+$$ DELIMITER ;
+
+
+DELIMITER  $$
+
+CREATE FUNCTION DeleteNote(xid INTEGER) RETURNS INT
+BEGIN
+
+
+DELETE FROM Notes_Users WHERE note_id = xid;
+
+DELETE FROM Notes WHERE id = xid;
+RETURN 1;
+
+END
+
+$$ DELIMITER ;
